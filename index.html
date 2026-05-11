@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>灏哄鏍囪 Demo</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <section class="glass-panel brand-panel">
+        <span class="eyebrow">Dimension Markup</span>
+        <h1>灏哄鏍囪</h1>
+        <p>鐓х墖绾у昂瀵告爣娉紝淇濇寔鍘熷鍒嗚鲸鐜囧鍑恒€?/p>
+      </section>
+
+      <section class="glass-panel control-panel">
+        <label class="field">
+          <span>鐓х墖</span>
+          <input id="imageInput" type="file" accept="image/*">
+        </label>
+        <div class="button-row">
+          <button id="deleteLineButton" type="button">鍒犻櫎閫変腑</button>
+          <button id="duplicateLineButton" type="button">澶嶅埗绾挎潯</button>
+        </div>
+        <div class="button-row single export-row">
+          <select id="exportFormatInput">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="pdf">PDF</option>
+            <option value="svg">SVG</option>
+          </select>
+          <button id="exportButton" type="button" class="primary">瀵煎嚭</button>
+        </div>
+      </section>
+
+      <section class="glass-panel list-panel">
+        <div class="section-head">
+          <h2>鏍囨敞</h2>
+          <span id="annotationCountValue" class="count-badge">0</span>
+        </div>
+        <div id="annotationList" class="annotation-list"></div>
+      </section>
+
+      <section class="glass-panel control-panel">
+        <h2>鏍峰紡</h2>
+        <label class="field">
+          <span>灏哄鏂囧瓧</span>
+          <input id="labelInput" type="text" placeholder="渚嬪 980 mm">
+        </label>
+
+        <div class="grid two">
+          <label class="field">
+            <span>绾挎潯棰滆壊</span>
+            <input id="colorInput" type="color" value="#ffffff">
+          </label>
+          <label class="field">
+            <span>鏂囧瓧棰滆壊</span>
+            <input id="textColorInput" type="color" value="#ffffff">
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>绾垮瀷</span>
+            <select id="styleInput">
+              <option value="solid">瀹炵嚎</option>
+              <option value="dashed">铏氱嚎</option>
+              <option value="dotted">鐐圭嚎</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>鏁板瓧浣嶇疆</span>
+            <select id="labelPositionInput">
+              <option value="above">鍦ㄧ嚎涓婃柟</option>
+              <option value="center">鍦ㄧ嚎涓棿</option>
+              <option value="below">鍦ㄧ嚎涓嬫柟</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>绠ご鏍峰紡</span>
+            <select id="arrowStyleInput">
+              <option value="filled">瀹炲績绠ご</option>
+              <option value="triangle">涓夎褰㈢澶?/option>
+              <option value="open">绌哄績绠ご</option>
+              <option value="diamond">鑿卞舰绔ご</option>
+              <option value="bracket">鎷彿褰?/option>
+              <option value="tick">鍕惧舰</option>
+              <option value="bar">鐭í鍒荤嚎</option>
+              <option value="dot">鍦嗙偣绔ご</option>
+              <option value="slash">鏂滃垏绔ご</option>
+              <option value="none">鏃犵澶?/option>
+            </select>
+          </label>
+          <label class="field">
+            <span>绠ご灏哄</span>
+            <input id="arrowSizeInput" type="range" min="4" max="80" step="0.5" value="14">
+          </label>
+        </div>
+        <div class="value-row">
+          <span id="arrowSizeValue" class="value-chip">14 px</span>
+          <span id="arrowAngleValue" class="value-chip">28掳</span>
+        </div>
+
+        <label class="field">
+          <span>绠ご鍊炬枩瑙?/span>
+          <input id="arrowAngleInput" type="range" min="10" max="75" step="1" value="28">
+        </label>
+
+        <div class="grid two">
+          <label class="field">
+            <span>绾垮</span>
+            <input id="lineWidthInput" type="range" min="0.5" max="40" step="0.5" value="4">
+          </label>
+          <label class="field">
+            <span>铏氱嚎闂磋窛</span>
+            <input id="dashGapInput" type="range" min="1" max="80" step="0.5" value="12">
+          </label>
+        </div>
+        <div class="value-row">
+          <span id="lineWidthValue" class="value-chip">4 px</span>
+          <span id="dashGapValue" class="value-chip">12 px</span>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>瀛椾綋澶у皬</span>
+            <input id="fontSizeInput" type="range" min="6" max="48" step="1" value="22">
+          </label>
+          <label class="field">
+            <span>瀛椾綋</span>
+            <select id="fontFamilyInput">
+              <option value="Arial">Arial</option>
+              <option value="Helvetica">Helvetica</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Microsoft YaHei">Microsoft YaHei</option>
+            </select>
+          </label>
+        </div>
+        <span id="fontSizeValue" class="value-chip">22 px</span>
+
+        <div class="grid two">
+          <label class="field">
+            <span>搴曟澘棰滆壊</span>
+            <input id="labelBgColorInput" type="color" value="#12141c">
+          </label>
+          <label class="field">
+            <span>搴曟澘閫忔槑搴?/span>
+            <input id="labelBgOpacityInput" type="range" min="0" max="100" step="1" value="80">
+          </label>
+        </div>
+        <span id="labelBgOpacityValue" class="value-chip">80%</span>
+      </section>
+    </aside>
+
+    <main class="workspace">
+      <section class="glass-strip status-strip">
+        <div class="status-pill">
+          <span>鍥惧儚</span>
+          <strong id="imageInfoValue">鏈浇鍏?/strong>
+        </div>
+        <div class="status-pill">
+          <span>鍏夋爣</span>
+          <strong id="cursorInfoValue">--</strong>
+        </div>
+        <div class="status-pill">
+          <span>閫変腑</span>
+          <strong id="selectionInfoValue">鏃?/strong>
+        </div>
+        <div class="status-pill">
+          <span>瑙掑害</span>
+          <strong id="angleInfoValue">--</strong>
+        </div>
+      </section>
+
+      <section class="glass-stage canvas-stage">
+        <div id="emptyState" class="empty-state">
+          <strong>瀵煎叆鍥剧墖鍚庡紑濮嬫爣璁?/strong>
+        </div>
+
+        <div id="imageViewport" class="image-viewport hidden">
+          <img id="photo" alt="寰呮爣娉ㄧ収鐗?>
+          <svg id="overlay" class="overlay"></svg>
+          <canvas id="magnifier" class="magnifier hidden" width="180" height="180"></canvas>
+          <div id="angleBadge" class="angle-badge hidden">0掳</div>
+          <input id="inlineLabelEditor" class="inline-label-editor hidden" type="text" aria-label="鏍囨敞閲嶅懡鍚?>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="annotationItemTemplate">
+    <button type="button" class="annotation-item">
+      <span class="annotation-name"></span>
+      <span class="annotation-meta"></span>
+    </button>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
